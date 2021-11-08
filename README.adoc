@@ -22,3 +22,23 @@ Like the `pim`, the `msgBroker` is also only accessible for access tokens contai
 == Architectural Overview
 
 image:architecture.svg[]
+
+
+== Launch the application
+
+Keycloak
+docker run --rm --name keycloak -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin -p 8080:8080 quay.io/keycloak/keycloak:15.0.2
+
+import the realms : bookshop-realm.json
+
+shop
+    mvn quarkus:dev
+pim
+    mvn quarkus:dev
+checkout
+    mvn spring-boot:run
+cart
+    mvn quarkus:dev
+msgbroker
+    mvn spring-boot:run
+
