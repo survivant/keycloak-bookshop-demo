@@ -10,14 +10,14 @@ import java.util.List;
 /**
  * @author Niko Köbler, https://www.n-k.de, @dasniko
  */
-@Path("catalogue")
+@Path("catalogue2")
 @Produces(MediaType.APPLICATION_JSON)
-public class CatalogueResource {
+public class CatalogueAllPermitResource {
 
     @GET
-    @RolesAllowed("serviceAccount") // only a user with this role can have access
     public List<Book> getBooks() {
         return List.of(
+                new Book(0, "ALL PERMIT", "ALL PERMIT"),
                 new Book(1, "Brave New World", "Aldous Huxley"),
                 new Book(2, "Pride and Prejudice", "Jane Austen"),
                 new Book(3, "Don Quixote", "Miguel de Cervantes Saavedra"),

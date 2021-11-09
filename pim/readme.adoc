@@ -1,0 +1,15 @@
+http://localhost:8082/q/dev/io.quarkus.quarkus-oidc/provider
+
+we don't have access to DEV-UI/keycloak if the Access Type is : bearer-only
+
+image::docs/bearer-only.png[]
+
+We will get this error message :
+Bearer-only applications are not allowed to initiate browser login
+
+image::docs/bearer-only-error.png[]
+
+
+
+
+
