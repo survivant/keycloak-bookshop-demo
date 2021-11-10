@@ -3,12 +3,13 @@ package org.acme.security.openid.connect;
 import javax.inject.Inject;
 
 
+import org.junit.jupiter.api.Test;
+
 import io.quarkus.oidc.client.OidcClient;
 import io.quarkus.oidc.client.Tokens;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.keycloak.client.KeycloakTestClient;
 import io.restassured.RestAssured;
-import org.junit.jupiter.api.Test;
 
 @QuarkusTest
 public class BearerTokenAuthenticationTest {
@@ -42,6 +43,22 @@ public class BearerTokenAuthenticationTest {
                 .then()
                 .statusCode(200);
 
+    }
+
+    @Test
+    public void testGetItemsInCart() {
+
+        Tokens tokens = client.getTokens().await().indefinitely();
+
+        RestAssured.given().auth().oauth2(getAccessToken("alice"))
+                .when().get("/catalogue/listItemInCart")
+                .then()
+                .statusCode(200);
+
+        RestAssured.given().auth().oauth2(tokens.getAccessToken())
+                .when().get("/catalogue/listItemInCart")
+                .then()
+                .statusCode(200);
     }
 
     protected String getAccessToken(String userName) {

@@ -1,6 +1,7 @@
 package dasniko.keycloak.shop.pim;
 
 import javax.annotation.security.RolesAllowed;
+import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -14,20 +15,19 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 public class CatalogueResource {
 
+    @Inject
+    CatalogueService catalogueService;
+
     @GET
     @RolesAllowed("serviceAccount") // only a user with this role can have access
     public List<Book> getBooks() {
-        return List.of(
-                new Book(1, "Brave New World", "Aldous Huxley"),
-                new Book(2, "Pride and Prejudice", "Jane Austen"),
-                new Book(3, "Don Quixote", "Miguel de Cervantes Saavedra"),
-                new Book(4, "1984", "George Orwell"),
-                new Book(5, "Gone With The Wind", "Margaret Mitchell"),
-                new Book(6, "The Great Gatsby", "F Scott Fitzgerald"),
-                new Book(7, "Life of Pi", "Yann Martel"),
-                new Book(8, "Oliver Twist", "Charles Dickens"),
-                new Book(9, "Adventures of Huckleberry Finn", "Mark Twain"),
-                new Book(10, "The Old Man and the Sea", "Ernest Hemingway")
-        );
+        return catalogueService.getBooks();
+    }
+
+    @GET
+    @Path("listItemInCart")
+    @RolesAllowed({"serviceAccount","user"}) // only a user with this role can have access
+    public String listItemInCart() {
+        return catalogueService.listItemInCart();
     }
 }

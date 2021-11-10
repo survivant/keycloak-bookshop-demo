@@ -35,13 +35,13 @@ import the realms : bookshop-realm.json
 The launch the services
 
     shop (port 8081)
-        mvn quarkus:dev
+        mvn quarkus:dev -Ddebug=5005
     pim (port 8082)
-        mvn quarkus:dev
+        mvn quarkus:dev -Ddebug=5006
     checkout (port 8084)
         mvn spring-boot:run
     cart (port 8083)
-        mvn quarkus:dev
+        mvn quarkus:dev -Ddebug=5008
     msgbroker (port 8085)
         mvn spring-boot:run
 
