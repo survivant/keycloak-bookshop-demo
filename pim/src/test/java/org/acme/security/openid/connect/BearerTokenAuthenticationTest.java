@@ -3,6 +3,7 @@ package org.acme.security.openid.connect;
 import javax.inject.Inject;
 
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import io.quarkus.oidc.client.OidcClient;
@@ -17,7 +18,14 @@ public class BearerTokenAuthenticationTest {
     @Inject
     OidcClient client;
 
+    static KeycloakRealmResourceManager keycloakRealmResourceManager = new KeycloakRealmResourceManager();
+
     KeycloakTestClient keycloakClient = new KeycloakTestClient();
+
+    @BeforeAll
+    public static void init() {
+        //keycloakRealmResourceManager.start();
+    }
 
     @Test
     public void testGetCatalogue() {
