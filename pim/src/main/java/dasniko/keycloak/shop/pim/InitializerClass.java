@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.keycloak.representations.idm.PartialImportRepresentation;
 import org.keycloak.representations.idm.RealmRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
@@ -21,33 +22,35 @@ public class InitializerClass {
     @Inject
     CatalogueService catalogueService;
 
+    @ConfigProperty(name="keycloak.realm")
+    String realm;
+
     @PostConstruct
     public void init(){
 
         System.out.println("Import realms");
-        String KEYCLOAK_REALM = "quarkus2";
         KeycloakRealmsHelper client = new KeycloakRealmsHelper();
 
-        RealmRepresentation realm =null;
+        RealmRepresentation realmRepresentation = null;
         try {
-            realm = client.getRealm(KEYCLOAK_REALM);
+            realmRepresentation = client.getRealm(realm);
         } catch(Exception e){
 
         }
 
-        if(realm==null) {
-            realm = createRealm(KEYCLOAK_REALM);
-            realm.setRevokeRefreshToken(true);
-            realm.setRefreshTokenMaxReuse(0);
-            realm.setAccessTokenLifespan(3);
+        if(realmRepresentation==null) {
+            realmRepresentation = createRealm(realm);
+            realmRepresentation.setRevokeRefreshToken(true);
+            realmRepresentation.setRefreshTokenMaxReuse(0);
+            realmRepresentation.setAccessTokenLifespan(3);
 
-            client.createRealm(realm);
+            client.createRealm(realmRepresentation);
         }
 
         // import realms
         try {
             var partialImportRepresentation = KeycloakRealmsHelper.loadFile("/import/realm-export.json", PartialImportRepresentation.Policy.SKIP.toString());
-            client.partialImport(KEYCLOAK_REALM, partialImportRepresentation);
+            client.partialImport(realm, partialImportRepresentation);
         } catch (Exception e) {
 
         }
